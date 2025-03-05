@@ -2,23 +2,24 @@ import { Sequelize } from "sequelize-typescript";
 import { envConfig } from "../config/config";
 
 
-const sequelize=new Sequelize(envConfig.connectionString as string)
-module:[__dirname + '/models']
+const sequelize=new Sequelize(envConfig.connectionString as string,{models :[__dirname + '/models']})
+
  
-try{
+try {
     sequelize.authenticate()
     .then(()=>{
-        console.log("auth is right")
+        console.log("Connected !!! 😀")
     })
     .catch(err=>{
-        console.log("error aayo",err)
+        console.log("ERROR 😝 : ", err)
     })
-}catch(error){
+} catch (error) {
     console.log(error)
-
 }
-sequelize.sync({force :false}).then(()=>{
+
+sequelize.sync({force : false}).then(()=>{
     console.log("synced !!")
 })
+
 
 export default sequelize
