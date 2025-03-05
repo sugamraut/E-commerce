@@ -3,7 +3,8 @@ import { envConfig } from "../config/config";
 
 
 const sequelize=new Sequelize(envConfig.connectionString as string)
-
+module:[__dirname + '/models']
+ 
 try{
     sequelize.authenticate()
     .then(()=>{
@@ -16,5 +17,8 @@ try{
     console.log(error)
 
 }
+sequelize.sync({force :false}).then(()=>{
+    console.log("synced !!")
+})
 
 export default sequelize
