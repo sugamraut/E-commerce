@@ -1,6 +1,7 @@
 import {Request,Response } from 'express'
 import User from '../database/models/userModel';
 import sequelize from '../database/config';
+import bcrypt from 'bcrypt'
 
 class UserController{
     static async register(req:Request,res:Response){
@@ -16,7 +17,7 @@ class UserController{
         await User.create({
             username, 
             email, 
-            password, 
+            password: bcrypt.hashSync(password,10),
     
         })
         
