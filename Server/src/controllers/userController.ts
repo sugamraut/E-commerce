@@ -29,6 +29,49 @@ class UserController{
             message : "User registered successfully"
         })
     }
+    static async login(req:Request,res:Response){
+
+        //accept the data-->email,password
+        const {email,password}=req.body
+
+        if(!email||!password){
+            res.status(400).json({
+                messsage:'please provide email,password'
+            })
+            return
+        }
+        //check email exist or not at first
+        //[user] destructure the arry in to object
+        const [user] =await User.findAll({// find in moongosse is equal to findAll in postgress it return in array, and findById ies equal to findByPk it return data in objrct
+            where:{
+                email:email
+            }
+        }) 
+        
+        if(!user){
+            res.status(404).json({
+                message:"no user with that email😢😢"
+            })
+        }else{
+            //if yes-->email exist->check password too
+             const isEqual=bcrypt.compareSync(password,user.password)
+            if(!isEqual){
+                res.status(400).json({
+                    message:"Invalid password😢😢😢"
+                })
+
+            }else{
+                 //if yes-->corret give access the token generate(JWT)
+                res.status(200).json({
+                    message:"logging in success 👍👍"
+                })
+            }
+
+        }
+
+       
+        
+    }
 }
 
 
