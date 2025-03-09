@@ -2,6 +2,7 @@ import {Request,Response } from 'express'
 import User from '../database/models/userModel';
 import sequelize from '../database/config';
 import bcrypt from 'bcrypt'
+import generateToken from '../services/gennerateToken';
 
 class UserController{
     static async register(req:Request,res:Response){
@@ -62,8 +63,10 @@ class UserController{
 
             }else{
                  //if yes-->corret give access the token generate(JWT)
+                 const token= generateToken(user.id)
                 res.status(200).json({
-                    message:"logging in success 👍👍"
+                    message:"logging in success 👍👍",
+                    token:token
                 })
             }
 
