@@ -4,6 +4,7 @@ import sequelize from '../database/config';
 import bcrypt from 'bcrypt'
 import generateToken from '../services/gennerateToken';
 import generateOtp from '../services/generateOtp';
+import sendMail from '../services/sendMail';
 
 class UserController{
     static async register(req:Request,res:Response){
@@ -21,6 +22,12 @@ class UserController{
             email, 
             password: bcrypt.hashSync(password,10),
     
+        })
+        await sendMail({
+            to:email,
+            subject:" register successfull on E-commerce",
+            text:"welcome to E-commerce site"
+
         })
         
         // await sequelize.query(`INSERT INTO users(id,username,email,password) VALUES (?,?,?,?)`, {
@@ -79,8 +86,12 @@ class UserController{
 
     static async handleForgetPassword(req:Request,res:Response){
         const {email}=req.body
-        if(!email) 
-            return res.status(400).json({message:"please provide email"})
+        if(!email) {
+            res.status(400).json({message:"please provide email"})
+            return
+
+        }
+             
 
         const [user]=await User.findAll({
             where:{
@@ -88,13 +99,25 @@ class UserController{
             }
         })
         if(!user){
-            return res.status(404).json({
+             res.status(404).json({
                 email:"Email not registered"
             })
+            return
         }
         //otp generate and send to mail
         const otp =generateOtp()
-        
+         await sendMail({
+            to:email,
+            subject:" change password of E-commerce",
+            text:  `you just request to reset password .here is your otp, ${otp}`
+        })
+        user.otp=otp.toString()
+        user.otpGeneretedTime=Date.now().toString()
+        await user.save()
+        res.status(200).json({
+            message:'password reset OTP sent!!! '
+        })
+
 
     }
 }
