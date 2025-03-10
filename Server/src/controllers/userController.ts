@@ -3,6 +3,7 @@ import User from '../database/models/userModel';
 import sequelize from '../database/config';
 import bcrypt from 'bcrypt'
 import generateToken from '../services/gennerateToken';
+import generateOtp from '../services/generateOtp';
 
 class UserController{
     static async register(req:Request,res:Response){
@@ -74,6 +75,27 @@ class UserController{
 
        
         
+    }
+
+    static async handleForgetPassword(req:Request,res:Response){
+        const {email}=req.body
+        if(!email) 
+            return res.status(400).json({message:"please provide email"})
+
+        const [user]=await User.findAll({
+            where:{
+                email:email
+            }
+        })
+        if(!user){
+            return res.status(404).json({
+                email:"Email not registered"
+            })
+        }
+        //otp generate and send to mail
+        const otp =generateOtp()
+        
+
     }
 }
 
