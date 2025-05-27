@@ -8,6 +8,8 @@ import sendMail from '../services/sendMail';
 import findData from '../services/findData';
 import sendResponse from '../services/sendResponse';
 import checkOtpExpiration from '../services/checkOtpExpiration';
+import { encodeXText } from 'nodemailer/lib/shared';
+import { envConfig } from '../config/config';
 
 class UserController{
     static async register(req:Request,res:Response){
@@ -16,6 +18,18 @@ class UserController{
         if(!username || !email || !password){
             res.status(400).json({
                 message : "Please provide username,email,password"
+            })
+            return
+        }
+        //check whether that email already exist or not
+        const[data]=await User.findAll({
+            where:{
+                email:email
+            }
+        })
+        if(data){
+             res.status(400).json({
+                message:"please try again later!!!"
             })
             return
         }
