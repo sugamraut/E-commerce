@@ -34,6 +34,87 @@ class categoryController{
             res.status(400).json({
                 message:"please provide the catagory"
             })
+            return
+
+        }
+        await category.create({
+            categoryName
+        })
+        res.status(200).json({
+            message:"category created successfully"
+        })
+    }
+    async getcategories(req:Request,res:Response):Promise<void>{
+        const data=await category.findAll()
+        res.status(200).json({
+            message:"fetched categories",
+            data
+        })
+    }
+    async deletecategories(req:Request,res:Response):Promise<void>{
+        const{id}=req.params
+        if(!id){
+            res.status(400).json({
+                message:"please provide the id "
+            })
+            return
+        }
+        
+        const data=await category.findAll({
+        where:{
+        id:id
+        }
+        })  //return the array
+         
+        //const data=await category.findByPk(id)//return tth object
+        if(data.length==0){
+            res.status(400).json({
+                message:"no catageroy of that id"
+            })
+        }else{
+            await category.destroy({
+                where:{
+                    id
+                }
+            })
+            res.status(200).json({
+                message:"catageroy deleted successfully"
+            })
+        }
+    }
+
+    async updatecategory(req:Request,res:Response):Promise<void>{
+         const{id}=req.params
+         const{categoryName}=req.body
+        if(!id|| categoryName){
+            res.status(400).json({
+                message:"please provide the id "
+            })
+            return
+        }
+        
+        const data=await category.findAll({
+        where:{
+        id:id
+        }
+        })  //return the array
+         
+        //const data=await category.findByPk(id)//return tth object
+        if(data.length==0){
+            res.status(400).json({
+                message:"no catageroy of that id"
+            })
+        }else{
+            await category.update({
+                categoryName:categoryName
+            },{
+                where:{
+                    id
+                }
+            })
+            res.status(200).json({
+                message:"categary updated succeffully"
+            })
 
         }
     }
