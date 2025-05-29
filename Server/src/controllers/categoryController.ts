@@ -1,6 +1,7 @@
 import { promises } from "nodemailer/lib/xoauth2";
 import category from "../database/models/categoryModel";
 import {Request,Response } from 'express'
+import {} from '../middleware/userMiddleware'
 
 
 
@@ -29,6 +30,7 @@ class categoryController{
 
     }
     async addCategory(req:Request,res:Response):Promise<void>{
+        //console.log(req.user)
         const {categoryName} = req.body
         if(!categoryName){
             res.status(400).json({
