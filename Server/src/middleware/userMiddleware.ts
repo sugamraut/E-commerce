@@ -54,6 +54,13 @@ class UserMiddleware{
     restrictTo(...roles:Role[]){//it means rest operater and sore data in array
        return (req:IExtendedRequest,res:Response,next:NextFunction)=>{
          let userRole=req.user?.role as Role
+         if(!roles.includes(userRole)){
+            res.status(403).json({
+                message:"Don't have permission!!!"
+            })
+            return
+         }
+         next()
 
 
        }
