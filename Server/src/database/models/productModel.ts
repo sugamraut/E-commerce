@@ -1,13 +1,13 @@
-import {Table,Column,Model,DataType, AllowNull} from 'sequelize-typescript'
+import {Table,Column,Model,DataType} from 'sequelize-typescript'
 
 
 @Table({
     tableName : "products", 
-    modelName : "product", 
+    modelName : "Product", 
     timestamps : true
 })
 
-class product extends Model{
+class Product extends Model{
     @Column({
         primaryKey : true, 
         type : DataType.UUID, 
@@ -16,40 +16,39 @@ class product extends Model{
     declare id:string
 
     @Column({
-        type : DataType.STRING,
-        allowNull:false
+        type : DataType.STRING, 
+        allowNull : false
     })
-    declare productname:string
+    declare productName:string
+
 
     @Column({
-        type : DataType.TEXT,
-        allowNull: false
+        type : DataType.TEXT
     })
     declare productDescription:string
 
     @Column({
-        type : DataType.FLOAT,
-        allowNull:false
+        type : DataType.FLOAT, 
+        allowNull : false
     })
-    declare productPrice:number 
+    declare productPrice:number
 
     @Column({
-        type:DataType.INTEGER,
-        allowNull:false
+        type : DataType.INTEGER,
+        allowNull : false
     })
     declare productTotalStock:number
 
     @Column({
-        type:DataType.INTEGER
+        type : DataType.INTEGER, 
+        allowNull : false
     })
-    declare productDiscount:number
+    declare discount:number
 
-   @Column({
-    type:DataType.STRING,
-    allowNull:false
-   })
-   declare productImagrURL:string
-    
+    @Column({
+        type : DataType.STRING
+    })
+    declare productImageUrl : string
 }
 
-export default product
+export default Product

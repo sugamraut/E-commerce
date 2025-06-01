@@ -15,5 +15,5 @@ const job = schedule.scheduleJob('42 * * * *', async function(){
 // localhost:3000/api/auth/
 app.use("/api/auth",userRoute)
 app.use("/api/category",categoryRoute)
-app.use("./api/product",productRoute)
+app.use("/api/product",productRoute)
 export default app

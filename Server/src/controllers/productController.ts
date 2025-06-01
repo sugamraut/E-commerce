@@ -2,37 +2,36 @@ import { Request, Response } from "express";
 import product from "../database/models/productModel";
 import category from "../database/models/categoryModel";
 
-interface ProductRequest extends Request{
-    file?:{
-        filename:string
-    },
-}
+// interface ProductRequest extends Request{
+//     file?:{
+//         filename:string,
+//         filednmae:string
+//     },
+// }
 class ProductController{
-  async createProduct(req:ProductRequest,res:Response):Promise<void>{
-     const{productname,productDescription,productPrice,productTotalStock,productDiscount,categoryId}=req.body
-     const filename=req.file? req.file.filename:"imagelinkhere"
-     if(!productname||!productDescription||productPrice||productTotalStock||!productDiscount||!categoryId){
-        res.status(400).json({
-            message:"please provide productname,productDescription,productPrice,productTotalStock,productDiscount"
-
+  async createProduct(req:Request,res:Response):Promise<void>{
+        const {productName,productDescription,productPrice,productTotalStock,discount,categoryId} = req.body 
+        console.log(req.file)
+        const filename = req.file ? req.file.filename : "https://weimaracademy.org/wp-content/uploads/2021/08/dummy-user.png"
+        if(!productName || !productDescription || !productPrice || !productTotalStock  || !categoryId){
+            res.status(400).json({
+                message : "Please provide productName,productDescription,productPrice,productTotalStock,discount,categoryId"
+            })
+            return
+        }
+        await product.create({
+            productName,
+            productDescription,
+            productPrice,
+            productTotalStock,
+            discount : discount || 0,
+            categoryId:categoryId, 
+            productImageUrl : filename
         })
-        return
-     }
-    await product.create({
-        productname,
-        productDescription,
-        productPrice,
-        productTotalStock,
-        productDiscount:productDiscount||0,
-        categoryId,
-        productImagrURL:filename
-        
-    })
-    res.status(200).json({
-        message:"product create successfully"
-
-    })
-}
+        res.status(200).json({
+            message : "Product created successfully"
+        })
+    }
 async getAllProduct(req:Request,res:Response):Promise<void>{
     const datas=await product.findAll({
         include:[{
@@ -55,7 +54,7 @@ async getsingleAllProduct(req:Request,res:Response):Promise<void>{
         }]
     })
     res.status(200).json({
-        message:"product fetched sucffuly",
+        message:"product fetched sucessfully",
         data:datas
     })
 }async delectProduct(req:Request,res:Response):Promise<void>{
@@ -79,7 +78,7 @@ async getsingleAllProduct(req:Request,res:Response):Promise<void>{
             }
         })
           res.status(200).json({
-        message:"product deleted sucffuly",
+        message:"product deleted sucessfully",
         data:datas
     })
 }
