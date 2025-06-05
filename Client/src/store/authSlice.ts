@@ -3,8 +3,13 @@ import { Status, type StatusType } from "../globlas/types";
 import axios from "axios";
 import type { AppDispatch } from "./store";
 
+interface IOTP{
+    email:string;
+    OTP: string
+}
+
 interface ILogin {
-  usrname: string;
+  username: string;
   email: string;
 }
 interface IUser {
@@ -47,6 +52,7 @@ export function registerUser(data: IUser) {
         "http://localhost:4000/api/auth/register",
         data
       );
+      console.log(response)
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
       } else {
@@ -66,6 +72,7 @@ export function loginUser(data: ILogin) {
         "http://localhost:4000/api/auth/login",
         data
       );
+      console.log(response)
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
       } else {
@@ -94,4 +101,21 @@ export function forgotPassword(data: { email: string }) {
       dispatch(setStatus(Status.ERROR));
     }
   };
+}
+
+export function OTPVerfiy(data:IOTP){
+    return async function OTPVerfiyThunk(dispatch:AppDispatch){
+        try {
+            const response = await axios.post("http://localhost:4000/api/auth/verify-otp",data);
+            if(response.status===200){
+                dispatch(setStatus(Status.SUCCESS))
+            }else{
+                dispatch(setStatus(Status.ERROR))
+            }
+        } catch (error) {
+            console.log(error)
+            dispatch(setStatus(Status.ERROR))
+            
+        }
+    }
 }

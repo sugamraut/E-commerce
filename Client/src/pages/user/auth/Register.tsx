@@ -1,11 +1,12 @@
 import React, { type ChangeEvent, type FormEvent } from 'react'
 import { useState } from 'react'
-import { useAppDispatch } from '../../store/hook'
-import { registerUser } from '../../store/authSlice'
+import { useAppDispatch } from '../../../store/hook'
+import { registerUser } from '../../../store/authSlice'
+import { Link } from 'react-router-dom'
 function Register() {
     //useDispatch()-->kunai acction trrigerr agrnu pory vane paaani
     //select garnu paryo selected * from ,find==>useSelector
-    const dispatch=useAppDispatch
+    const dispatch=useAppDispatch()
     const [data,setData]=useState({
       username:'',
       password:"",
@@ -22,7 +23,7 @@ function Register() {
 
     const handleSubmit=(e:FormEvent<HTMLFormElement>)=>{
       e.preventDefault()
-      dispatch(registerUser(user))
+      dispatch(registerUser(data))
 
     }
   return (
@@ -77,6 +78,7 @@ function Register() {
                         className="flex w-full justify-center rounded-md border border-transparent bg-sky-400 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-opacity-75 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2">Register
                         Account
                         </button>
+                        <Link to='/login' style={{color:'blue'}} >Go to login</Link>
                 </div>
             </form>
         </div>
