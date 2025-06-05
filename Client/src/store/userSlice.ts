@@ -1,19 +1,16 @@
 import { createSlice,type PayloadAction } from "@reduxjs/toolkit";
+import type { User } from "./types";
 
-interface User{
-    name:string,
-    age:number
-}
 const initialState:User={
-    name:"manish basnet",
+    name:"Sugam Raut",
     age:12
 }
 const userSlice=createSlice({
     name:"user",
     initialState: initialState,
     reducers:{
-        setName(state:User,action:PayloadAction<User>){
-            state.name="hello"
+        setName(state:User,action:PayloadAction<string>){
+            state.name=action.payload
             
         },
         setAge(state:User,action:PayloadAction<User>){
