@@ -1,4 +1,4 @@
-import React, { useState, type ChangeEvent, type FormEvent } from 'react'
+import { useState, type ChangeEvent, type FormEvent } from 'react'
 import { useAppDispatch } from '../../../store/hook'
 import { OTPVerfiy } from '../../../store/authSlice'
 

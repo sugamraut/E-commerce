@@ -1,9 +1,7 @@
-import React, { type ChangeEvent, type FormEvent } from 'react'
+import { type ChangeEvent, type FormEvent } from 'react'
 import { useState } from 'react'
 import { loginUser } from '../../../store/authSlice'
 import { useAppDispatch } from '../../../store/hook'
-import { Link } from 'react-router-dom'
-
 function Login() {
      const dispatch=useAppDispatch()
    const [data,setData]=useState({

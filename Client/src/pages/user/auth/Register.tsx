@@ -1,4 +1,4 @@
-import React, { type ChangeEvent, type FormEvent } from 'react'
+import { type ChangeEvent, type FormEvent } from 'react'
 import { useState } from 'react'
 import { useAppDispatch } from '../../../store/hook'
 import { registerUser } from '../../../store/authSlice'
